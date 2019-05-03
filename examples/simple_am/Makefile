@@ -1,4 +1,4 @@
-CXXFLAGS =	-O3 -Wall -fmessage-length=0
+CXXFLAGS =	-O3 -Wall -fmessage-length=0 -std=c++11
 
 OBJS =		simple_am.o SwimClient.o
 
