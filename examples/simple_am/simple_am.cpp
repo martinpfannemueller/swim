@@ -14,8 +14,10 @@
  *******************************************************************************/
 #include "SwimClient.h"
 #include <iostream>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 const int NUMBER_OF_DIMMER_LEVELS = 5;
 const double DIMMER_STEP = 1.0 / (NUMBER_OF_DIMMER_LEVELS - 1);
@@ -24,6 +26,7 @@ const int PERIOD = 60;
 
 void simpleAdaptationManager(SwimClient& swim) {
     while (swim.isConnected()) {
+        high_resolution_clock::time_point t1 = high_resolution_clock::now();
         double dimmer = swim.getDimmer();
         int servers = swim.getServers();
         int activeServers = swim.getActiveServers();
@@ -52,7 +55,9 @@ void simpleAdaptationManager(SwimClient& swim) {
                 }
             }
         }
-
+        high_resolution_clock::time_point t2 = high_resolution_clock::now();
+        auto duration = duration_cast<microseconds>( t2 - t1 ).count();
+        cout << "DURATION: " << duration << endl; 
         sleep(PERIOD);
     }
 }
